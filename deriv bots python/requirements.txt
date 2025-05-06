@@ -1,0 +1,12 @@
+websocket-client
+numpy
+scikit-learn
+requests
+python-dotenv
+pyTelegramBotAPI
+matplotlib
+pandas
+Flask
+selenium
+selenium-wire
+webdriver-manager
