@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Page Switcher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .menu {
+      margin-bottom: 20px;
+    }
+
+    .menu button {
+      padding: 10px 20px;
+      margin-right: 10px;
+      cursor: pointer;
+      border: 1px solid #007bff;
+      background-color: white;
+      color: #007bff;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .menu button.active-btn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .content {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    .content.fade-in {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu">
+    <button data-target="home">Home</button>
+    <button data-target="about">About</button>
+    <button data-target="contact">Contact</button>
+    <button data-target="help">Help</button>
+  </div>
+
+  <div class="sections">
+    <section id="home" class="content">🏠 Welcome to the Home Page</section>
+    <section id="about" class="content">ℹ️ About Us: Learn more about our story.</section>
+    <section id="contact" class="content">📞 Contact: Reach out to us anytime.</section>
+    <section id="help" class="content">❓ Help: We're here to assist you.</section>
+  </div>
+
+  <script>
+    // Event delegation on the menu
+    document.querySelector('.menu').addEventListener('click', function (e) {
+      const targetBtn = e.target.closest('button[data-target]');
+      if (!targetBtn) return;
+
+      // Remove active class from all buttons
+      document.querySelectorAll('.menu button').forEach(btn => {
+        btn.classList.remove('active-btn');
+      });
+
+      // Add active class to clicked button
+      targetBtn.classList.add('active-btn');
+
+      // Hide all sections
+      document.querySelectorAll('.content').forEach(section => {
+        section.classList.remove('active', 'fade-in');
+        section.style.display = 'none';
+      });
+
+      // Show the matching section
+      const targetSection = document.getElementById(targetBtn.dataset.target);
+      if (targetSection) {
+        targetSection.classList.add('active');
+        targetSection.style.display = 'block';
+        requestAnimationFrame(() => {
+          targetSection.classList.add('fade-in');
+        });
+      }
+    });
+
+    // Show Home by default when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      const defaultBtn = document.querySelector('[data-target="home"]');
+      const homeSection = document.getElementById('home');
+
+      defaultBtn.classList.add('active-btn');
+      homeSection.classList.add('active');
+      homeSection.style.display = 'block';
+      requestAnimationFrame(() => {
+        homeSection.classList.add('fade-in');
+      });
+    });
+  </script>
+
+</body>
+</html>
